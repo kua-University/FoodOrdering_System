@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: zayid_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: zayid_food
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+
+  php:
+    image: php:8.2-apache
+    container_name: zayid_php
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html/zayid_food
+    environment:
+      DB_HOST: db
+      DB_NAME: zayid_food
+      DB_USER: root
+      DB_PASS: root
+    command: >
+      bash -c "
+        docker-php-ext-install pdo pdo_mysql &&
+        a2enmod rewrite &&
+        sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf &&
+        apache2-foreground
+      "
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: zayid_pma
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+
+volumes:
+  db_data:

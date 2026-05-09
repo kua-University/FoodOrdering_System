@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zayid Food — Order Fresh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── AUTH OVERLAY ── -->
+  <div id="auth-overlay" class="overlay active">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="brand-icon">🍽️</span>
+        <h1>Zayid Food</h1>
+        <p>Sign in to continue ordering</p>
+      </div>
+
+      <div id="auth-error" class="auth-error hidden"></div>
+
+      <div class="auth-tabs">
+        <button class="tab-btn active" data-tab="login">Sign In</button>
+        <button class="tab-btn" data-tab="register">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="tab-login" class="tab-panel active">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="login-username" placeholder="admin or user" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button class="btn-primary" id="btn-login">Sign In</button>
+        <p class="hint">Demo → admin / 1234 &nbsp;|&nbsp; user / 1111</p>
+      </div>
+
+      <!-- Register Form -->
+      <div id="tab-register" class="tab-panel">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" placeholder="Your name" />
+        </div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="reg-username" placeholder="Choose a username" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="Min 4 characters" autocomplete="new-password" />
+        </div>
+        <button class="btn-primary" id="btn-register">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN APP ── -->
+  <div id="app" class="hidden">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-brand">🍽️ <span>Zayid Food</span></div>
+      <div class="nav-links" id="nav-links">
+        <button class="nav-btn active" data-view="menu">Menu</button>
+        <button class="nav-btn" data-view="orders" id="btn-my-orders">My Orders</button>
+        <button class="nav-btn admin-only hidden" data-view="admin">Admin Panel</button>
+      </div>
+      <div class="nav-right">
+        <button class="cart-btn" id="cart-toggle">
+          🛒 <span id="cart-count">0</span>
+        </button>
+        <div class="user-chip" id="user-chip"></div>
+        <button class="nav-btn signout" id="btn-signout">Sign Out</button>
+      </div>
+    </nav>
+
+    <!-- Views -->
+    <main class="main-content">
+
+      <!-- MENU VIEW -->
+      <section id="view-menu" class="view active">
+        <div class="view-header">
+          <h2>Our Menu</h2>
+          <div class="search-bar">
+            <input type="text" id="menu-search" placeholder="Search dishes…" />
+          </div>
+        </div>
+        <div id="menu-grid" class="menu-grid">
+          <div class="skeleton-grid">
+            <div class="skeleton-card"></div><div class="skeleton-card"></div>
+            <div class="skeleton-card"></div><div class="skeleton-card"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORDERS VIEW -->
+      <section id="view-orders" class="view">
+        <div class="view-header"><h2 id="orders-title">My Orders</h2></div>
+        <div id="orders-list" class="orders-list"></div>
+      </section>
+
+      <!-- ADMIN VIEW -->
+      <section id="view-admin" class="view">
+        <div class="admin-tabs">
+          <button class="atab active" data-atab="manage-menu">Manage Menu</button>
+          <button class="atab" data-atab="all-orders">All Orders</button>
+          <button class="atab" data-atab="stats">Revenue Stats</button>
+        </div>
+
+        <!-- Manage Menu -->
+        <div id="atab-manage-menu" class="atab-panel active">
+          <div class="add-item-form">
+            <h3>Add New Item</h3>
+            <div class="form-row">
+              <input type="text" id="item-name" placeholder="Dish name" />
+              <input type="number" id="item-price" placeholder="Price (ETB)" min="0" step="0.01" />
+              <input type="text" id="item-category" placeholder="Category" />
+              <input type="text" id="item-image" placeholder="Image URL (optional)" />
+              <button class="btn-primary small" id="btn-add-item">Add Item</button>
+            </div>
+          </div>
+          <div id="admin-menu-list" class="admin-menu-list"></div>
+        </div>
+
+        <!-- All Orders -->
+        <div id="atab-all-orders" class="atab-panel">
+          <div id="admin-orders-list" class="orders-list"></div>
+        </div>
+
+        <!-- Stats -->
+        <div id="atab-stats" class="atab-panel">
+          <div id="stats-content" class="stats-grid"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Cart Sidebar -->
+    <aside id="cart-sidebar" class="cart-sidebar">
+      <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button id="cart-close">✕</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="cart-total">Total: <strong id="cart-total">ETB 0.00</strong></div>
+        <button class="btn-primary" id="btn-checkout">Place Order</button>
+      </div>
+    </aside>
+    <div id="cart-backdrop" class="cart-backdrop"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
