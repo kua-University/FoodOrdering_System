@@ -43,7 +43,65 @@ zayid_food/
 ├── docker-compose.yml   ← DevOps: run everything with 1 command
 └── README.md
 ```
+# Zayid Food Ordering System
 
+![HTML5](https://img.shields.io/badge/HTML5-Frontend-orange)
+![CSS3](https://img.shields.io/badge/CSS3-Styling-blue)
+![JavaScript](https://img.shields.io/badge/JavaScript-AppLogic-yellow)
+![PHP](https://img.shields.io/badge/PHP-Backend-purple)
+![MySQL](https://img.shields.io/badge/MySQL-Database-lightblue)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue)
+![GitHub](https://img.shields.io/badge/GitHub-VersionControl-black)
+![XAMPP](https://img.shields.io/badge/XAMPP-LocalServer-red)
+
+# Zayid Food Ordering System
+
+A full-stack food ordering and restaurant management system developed using HTML, CSS, JavaScript, PHP, MySQL, and Docker.
+
+---
+
+# Features
+
+- User authentication
+- Food browsing and search
+- Shopping cart
+- Order placement
+- Admin dashboard
+- Food management
+- Order tracking
+- Responsive UI
+- Database integration
+- Docker container support
+
+---
+
+# Technologies Used
+
+## Frontend
+- HTML5
+- CSS3
+- JavaScript
+
+## Backend
+- PHP
+
+## Database
+- MySQL
+
+## DevOps & Tools
+- Docker
+- GitHub
+- XAMPP
+- VS Code
+
+---
+
+# Docker Setup
+
+## Build Docker Container
+
+```bash
+docker-compose up --build
 ---
 
 ## Setup
